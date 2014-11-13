@@ -44,6 +44,7 @@ class Foozball{
         while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
             $num_rows = count($data);
             $row++;
+            //add our game event to keep things normalized
             $stmt = $this->db->prepare('insert into game (id) values (:id)');
             $stmt->bindParam(':id',$row,PDO::PARAM_INT);
             $stmt->execute();
@@ -65,9 +66,8 @@ class Foozball{
                             $stmt->bindParam(':name',$data[$c],PDO::PARAM_STR);
                             $stmt->execute();
                             $player_id=SELF::get_max_user();
-                            //print "New users id will be $player_id";
                         } catch(PDOException $e){
-                            print "Error!: " . $e->getMessage() . "</br>";
+                            print "Error!: " . $e->getMessage() . "\n";
                         }
 
                     }
